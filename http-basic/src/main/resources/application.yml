@@ -1,0 +1,14 @@
+server:
+  port: 9090
+spring:
+  freemarker:
+    cache: false # 缓存配置 开发阶段应该配置为false 因为经常会改
+    suffix: .html # 模版后缀名 默认为ftl
+    charset: UTF-8 # 文件编码
+    template-loader-path: classpath:/templates/
+  application:
+    name: spring security http basic
+  security:
+    user:
+      name: admin
+      password: 123456
