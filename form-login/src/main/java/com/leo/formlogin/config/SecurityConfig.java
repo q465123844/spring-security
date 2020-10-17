@@ -1,5 +1,7 @@
 package com.leo.formlogin.config;
 
+import com.leo.formlogin.auth.handler.MyAuthenticationFailureHandler;
+import com.leo.formlogin.auth.handler.MyAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,8 +12,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Resource
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    @Resource
+    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -22,7 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("uname")
                 .passwordParameter("pwd")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/index")
+                /**
+                 * defaultSuccessUrl 和 successHandler只能任选其一(failure也是一样)
+                 */
+                //.defaultSuccessUrl("/index")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 //所有的请求必须在登录之后才能访问
                 .authorizeRequests()

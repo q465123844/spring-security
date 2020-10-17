@@ -14,3 +14,4 @@ spring:
     user:
       name: admin
       password: 123456
+    loginType: JSON
