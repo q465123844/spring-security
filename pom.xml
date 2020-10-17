@@ -11,6 +11,7 @@
     <modules>
         <module>http-basic</module>
         <module>form-login</module>
+        <module>spring-security-session</module>
     </modules>
 
 

@@ -1,7 +1,7 @@
-package com.leo.formlogin.config;
+package com.leo.session.config;
 
-import com.leo.formlogin.auth.handler.MyAuthenticationFailureHandler;
-import com.leo.formlogin.auth.handler.MyAuthenticationSuccessHandler;
+import com.leo.session.auth.handler.MyAuthenticationFailureHandler;
+import com.leo.session.auth.handler.MyAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -56,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/syslog").hasAnyAuthority("sys:log")
                     .antMatchers("/sysuser").hasAnyAuthority("sys:user")
                     .anyRequest().
-                    authenticated();
+                    authenticated()
+                .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
     }
 
     @Override
