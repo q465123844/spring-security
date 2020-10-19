@@ -1,5 +1,6 @@
 package com.leo.session.config;
 
+import com.leo.session.auth.MyExpiredSessionStrategy;
 import com.leo.session.auth.handler.MyAuthenticationFailureHandler;
 import com.leo.session.auth.handler.MyAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().
                     authenticated()
                 .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .invalidSessionUrl("/login.html")
+                    //同一个cookies的SESSIONID用户，每次登录验证将创建一个新的HTTP会话,旧的HTTP会话将无效,并且旧会话的属性将被复制。
+                    .sessionFixation().migrateSession()
+                    //最大登录用户数
+                    .maximumSessions(1)
+                    //true 表示登录之后不允许再次登录,false为允许再次登录,但是上次登录的状态和账号会下线
+                    .maxSessionsPreventsLogin(false)
+                    //超时响应策略
+                    .expiredSessionStrategy(new MyExpiredSessionStrategy());
     }
 
     @Override
