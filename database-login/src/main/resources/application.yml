@@ -14,10 +14,19 @@ spring:
     template-loader-path: classpath:/templates/
     settings:
       template_update_delay: 0
+  datasource:
+      url: jdbc:mysql://127.0.0.1:3306/security?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
   application:
     name: spring security form login
   security:
+    loginType: html
     user:
       name: admin
       password: 123456
-    loginType: html
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

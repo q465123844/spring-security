@@ -3,6 +3,7 @@ package com.leo.databaselogin.config;
 import com.leo.databaselogin.auth.MyExpiredSessionStrategy;
 import com.leo.databaselogin.auth.handler.MyAuthenticationFailureHandler;
 import com.leo.databaselogin.auth.handler.MyAuthenticationSuccessHandler;
+import com.leo.databaselogin.auth.impl.MyUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
     @Resource
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+    @Resource
+    private MyUserDetailsServiceImpl myUserDetailsServiceImpl;
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -54,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     //admin角色才能访问syslog和sysuser
                     .hasAnyRole("admin")*/
                     .antMatchers("/syslog").hasAnyAuthority("sys:log")
-                    .antMatchers("/sysuser").hasAnyAuthority("sys:user")
+                    .antMatchers("/sysuser").hasAnyAuthority("/sysuser")
                     .anyRequest().
                     authenticated()
                 .and()
@@ -70,7 +74,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .expiredSessionStrategy(new MyExpiredSessionStrategy());
     }
 
-    @Override
+    /**
+     * 固定的方式
+     * @param auth
+     * @throws Exception
+     */
+    /*@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 //账号user,密码123456有着user的角色
@@ -87,6 +96,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //配置BCrypt加密
                 .passwordEncoder(passwordEncoder());
+    }*/
+
+    /**
+     * 数据库动态加载
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(myUserDetailsServiceImpl);
     }
 
     /**
