@@ -22,7 +22,7 @@ spring:
   application:
     name: spring security form login
   security:
-    loginType: html
+    loginType: JSON
     user:
       name: admin
       password: 123456

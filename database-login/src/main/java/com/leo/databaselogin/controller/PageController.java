@@ -21,7 +21,7 @@ public class PageController {
      */
     @GetMapping("/syslog")
     public String systemLog(){
-        return "syslog";
+        return "sys_log";
     }
 
     /**
@@ -30,7 +30,7 @@ public class PageController {
      */
     @GetMapping("/businessOne")
     public String businessOne(){
-        return "businessOne";
+        return "business_one";
     }
 
     /**
@@ -39,7 +39,7 @@ public class PageController {
      */
     @GetMapping("/businessTwo")
     public String businessTwo(){
-        return "businessTwo";
+        return "business_two";
     }
 
     /**
@@ -48,7 +48,7 @@ public class PageController {
      */
     @GetMapping("/sysuser")
     public String sysUser(){
-        return "sysuser";
+        return "sys_user";
     }
 
    /* @PostMapping("/login")

@@ -30,8 +30,8 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         logger.info("登录成功");
         if(loginType.equalsIgnoreCase("JSON")){
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(AjaxResponse.success()));
-            //response.getWriter().write(objectMapper.writeValueAsString(AjaxResponse.success("/index")));
+            //response.getWriter().write(objectMapper.writeValueAsString(AjaxResponse.success()));
+            response.getWriter().write(objectMapper.writeValueAsString(AjaxResponse.success("/index")));
 
         } else {
             //跳转到登录之前请求的页面
