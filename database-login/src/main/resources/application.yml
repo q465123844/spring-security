@@ -23,9 +23,9 @@ spring:
     name: spring security form login
   security:
     loginType: JSON
-    user:
-      name: admin
-      password: 123456
+#    user:
+#      name: admin
+#      password: 123456
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:

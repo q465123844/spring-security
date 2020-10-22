@@ -7,6 +7,7 @@ import com.leo.databaselogin.auth.impl.MyUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+//支持方法级别安全控制
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -102,6 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //所有的请求必须在登录之后才能访问
                 .authorizeRequests()
                 //开放页面和接口,不需要登录认证就可以访问
+                //.antMatchers("/login.html","/login").access("permitAll()")
                 .antMatchers("/login.html","/login").permitAll()
                 .antMatchers("/index").authenticated()
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")
